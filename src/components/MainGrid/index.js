@@ -24,6 +24,6 @@ export const MainGrid = styled.main`
     display: grid;
     max-width: 1110px;
     grid-template-areas: "profileArea welcomeArea profileRelationsArea";
-    grid-template-columns: 160px 1fr 312px;
+    grid-template-columns: 180px 1fr 312px;
   }
 `;
