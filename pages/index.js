@@ -1,27 +1,10 @@
-import {useState} from 'react';
+import { useState, useEffect } from 'react';
 import { MainGrid } from "../src/components/MainGrid";
 import { Box } from '../src/components/Box';
 import { AlurakutMenu, OrkutNostalgicIconSet, AlurakutProfileSidebarMenuDefault } from '../src/lib/AlurakutCommons';
 import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
-
-function ProfileSideBar(props){
-  return(
-      <Box as="aside">
-        <img className="profilePhoto" src={`https://github.com/${props.githubUser}.png`} alt="Profile" />
-        <hr />
-
-        <p>
-          <a className="boxLink" href={`https://github.com/${props.githubUser}`}>
-            @{props.githubUser}
-          </a>
-        </p>
-
-        <hr />
-
-        <AlurakutProfileSidebarMenuDefault />
-      </Box>
-  );
-}
+import ProfileSideBar from '../src/components/ProfileSideBar';
+import ProfileRelationsBox from '../src/components/ProfileRelationBox';
 
 export default function Home() {
   const githubUser = "VitorHugoAntunes";
@@ -46,6 +29,16 @@ export default function Home() {
     communities,
     favoritePeople
   }
+
+  const [followers, setFollowers] = useState([]); 
+
+  useEffect(() => {
+    fetch('https://api.github.com/users/VitorHugoAntunes/followers').then((serverResponse) => {
+      return serverResponse.json();
+    }).then((response) => {
+      setFollowers(response)
+    })
+  }, [])
 
   return (
     <>
@@ -102,6 +95,7 @@ export default function Home() {
           </Box>
         </div>
         <div className="profileRelationsArea" style={{ gridArea: "profileRelationsArea" }}>
+          <ProfileRelationsBox title="Seguidores" items={followers} />
           <ProfileRelationsBoxWrapper>
             <h2 className="smallTitle">Comunidades ({communities.length})</h2>
 
